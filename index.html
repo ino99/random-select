@@ -1,30 +1,40 @@
 <!DOCTYPE html>
 <html>
+<head>
+  <meta charset="UTF-8">
+  <title>Random Order</title>
+</head>
 <body>
-<h2>夕会 発表順</h2>
+  <h1>Presentation Order</h1>
 
-<textarea id="members">Aさん
-Bさん
-Cさん
-Dさん</textarea>
-<br><br>
+  <button onclick="shuffleOrder()">Random</button>
 
-<button onclick="run()">順番を決める</button>
+  <ol id="result"></ol>
 
-<ol id="list"></ol>
+  <script>
+    function getNamesFromURL() {
+      const params = new URLSearchParams(window.location.search);
+      const names = params.get("names");
+      return names ? names.split(/[,、]/) : ["A","B","C","D"];
+    }
 
-<script>
-function run(){
-  let m = document.getElementById("members").value
-    .split("\n")
-    .map(x=>x.trim())
-    .filter(x=>x);
+    function shuffleOrder() {
+      const members = getNamesFromURL();
 
-  m.sort(()=>Math.random()-0.5);
+      for (let i = members.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [members[i], members[j]] = [members[j], members[i]];
+      }
 
-  document.getElementById("list").innerHTML =
-    m.map(x=>"<li>"+x+"</li>").join("");
-}
-</script>
+      const result = document.getElementById("result");
+      result.innerHTML = "";
+
+      members.forEach(name => {
+        const li = document.createElement("li");
+        li.textContent = name.trim();
+        result.appendChild(li);
+      });
+    }
+  </script>
 </body>
 </html>

@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<body>
+<h2>夕会 発表順</h2>
+
+<textarea id="members">Aさん
+Bさん
+Cさん
+Dさん</textarea>
+<br><br>
+
+<button onclick="run()">順番を決める</button>
+
+<ol id="list"></ol>
+
+<script>
+function run(){
+  let m = document.getElementById("members").value
+    .split("\n")
+    .map(x=>x.trim())
+    .filter(x=>x);
+
+  m.sort(()=>Math.random()-0.5);
+
+  document.getElementById("list").innerHTML =
+    m.map(x=>"<li>"+x+"</li>").join("");
+}
+</script>
+</body>
+</html>

@@ -15,7 +15,12 @@
     function getNamesFromURL() {
       const params = new URLSearchParams(window.location.search);
       const names = params.get("names");
-      return names ? names.split(/[,、]/) : ["A","B","C","D"];
+
+      if (!names) {
+        return ["A", "B", "C", "D"];
+      }
+
+      return names.split(/[,、]/).map(name => name.trim()).filter(name => name);
     }
 
     function shuffleOrder() {
@@ -29,13 +34,14 @@
       const result = document.getElementById("result");
       result.innerHTML = "";
 
-      members.forEach(name => {
+      members.forEach(member => {
         const li = document.createElement("li");
-        li.textContent = name.trim();
+        li.textContent = member;
         result.appendChild(li);
       });
     }
-    window.onload = shuffleOrder;
+
+    document.addEventListener("DOMContentLoaded", shuffleOrder);
   </script>
 </body>
 </html>
